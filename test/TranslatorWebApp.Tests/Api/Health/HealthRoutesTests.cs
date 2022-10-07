@@ -3,6 +3,7 @@ using FluentAssertions;
 using Snapshooter.Xunit;
 using TranslatorWebApp.Api.Health;
 using TranslatorWebApp.Api.Infrastructure;
+using TranslatorWebApp.Tests.TestHelpers;
 using Xunit;
 
 namespace TranslatorWebApp.Tests.Api.Health;

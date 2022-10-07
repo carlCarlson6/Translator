@@ -2,18 +2,25 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Rebus.TestHelpers;
 using TranslatorWebApp.Api;
+using TranslatorWebApp.Api.Translations;
 
-namespace TranslatorWebApp.Tests.Api;
+namespace TranslatorWebApp.Tests.TestHelpers;
 
 public class BaseApiTests
 {
+    protected readonly FakeBus FakeBus = new();
+    protected readonly ITranslationDocumentsRepository Repository = null!;
+    
     protected IWebHost GivenTestHost() => WebHost
         .CreateDefaultBuilder()
         .UseStartup<Startup>()
         .UseTestServer()
         .ConfigureAppConfiguration(builder => builder.AddEnvironmentVariables())
-        .ConfigureTestServices(_ => {})
+        .ConfigureTestServices(services => 
+            services.AddSingleton(FakeBus))
         .UseDefaultServiceProvider((_, options) =>
         {
             // makes sure DI lifetimes and scopes don't have common issues
@@ -21,9 +28,4 @@ public class BaseApiTests
             options.ValidateOnBuild = true;
         })
         .Start();
-}
-
-public static class TestingExtensions
-{
-    public static HttpClient GetClient(this IWebHost webHost) => webHost.GetTestClient();
 }
