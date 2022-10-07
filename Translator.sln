@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorWebApp", "src\TranslatorWebApp\TranslatorWebApp.csproj", "{AD5A8A07-E2B7-4A2A-B472-2CD94A7E6B02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorWebApp.Tests", "test\TranslatorWebApp.Tests\TranslatorWebApp.Tests.csproj", "{778A0D43-7C99-469B-BAFD-3C7B7E069053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +14,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD5A8A07-E2B7-4A2A-B472-2CD94A7E6B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5A8A07-E2B7-4A2A-B472-2CD94A7E6B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5A8A07-E2B7-4A2A-B472-2CD94A7E6B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5A8A07-E2B7-4A2A-B472-2CD94A7E6B02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{778A0D43-7C99-469B-BAFD-3C7B7E069053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{778A0D43-7C99-469B-BAFD-3C7B7E069053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{778A0D43-7C99-469B-BAFD-3C7B7E069053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{778A0D43-7C99-469B-BAFD-3C7B7E069053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
