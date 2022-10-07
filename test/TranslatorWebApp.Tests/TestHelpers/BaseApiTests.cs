@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Rebus.TestHelpers;
 using TranslatorWebApp.Api;
 using TranslatorWebApp.Api.Translations;
+using TranslatorWebApp.Api.Translations.Core;
 
 namespace TranslatorWebApp.Tests.TestHelpers;
 

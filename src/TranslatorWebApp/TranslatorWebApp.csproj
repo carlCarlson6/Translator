@@ -17,4 +17,8 @@
       <Folder Include="TranslatorWorker" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Contracts\Contracts.csproj" />
+    </ItemGroup>
+
 </Project>
