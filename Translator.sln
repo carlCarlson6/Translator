@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorWebApp.Tests", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\Contracts\Contracts.csproj", "{184ABDFB-6C33-4F4E-9DF4-F41FF8ADC7CA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{13C61684-FDA2-4BD2-8A60-BD3418C1FCA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.CognitiveServices", "src\Azure.CognitiveServices\Azure.CognitiveServices.csproj", "{1D207876-9AEA-43FE-8E8E-D9FBA9BE0669}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,12 @@ Global
 		{184ABDFB-6C33-4F4E-9DF4-F41FF8ADC7CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{184ABDFB-6C33-4F4E-9DF4-F41FF8ADC7CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{184ABDFB-6C33-4F4E-9DF4-F41FF8ADC7CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D207876-9AEA-43FE-8E8E-D9FBA9BE0669}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D207876-9AEA-43FE-8E8E-D9FBA9BE0669}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D207876-9AEA-43FE-8E8E-D9FBA9BE0669}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D207876-9AEA-43FE-8E8E-D9FBA9BE0669}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1D207876-9AEA-43FE-8E8E-D9FBA9BE0669} = {13C61684-FDA2-4BD2-8A60-BD3418C1FCA9}
 	EndGlobalSection
 EndGlobal
