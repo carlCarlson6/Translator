@@ -13,5 +13,3 @@ public class HealthController : ControllerBase
     [HttpGet("{name}")]
     public IActionResult SayHello(string name) => new ObjectResult(new HealthControllerResponse($"hello {name} :) i'm alive"));
 }
-
-public record HealthControllerResponse(string Message);

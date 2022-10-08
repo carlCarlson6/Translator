@@ -8,12 +8,13 @@ using Xunit;
 
 namespace TranslatorWebApp.Tests.Api.Health;
 
-public class HealthTests : BaseApiTests
+public class HealthTests : TestWithApi
 {
     [Fact]
     public async Task WhenGetHealthRoute_ThenReturnsHelloWorldResponse()
     {
-        var response = await GivenTestHost()
+        var host = await GivenTestHost();
+        var response = await host
             .GetClient()
             .GetFromJsonAsync<HealthControllerResponse>(ApiRoutes.Health);
         response.Should().MatchSnapshot();
@@ -22,7 +23,8 @@ public class HealthTests : BaseApiTests
     [Fact]
     public async Task WhenGetHealthRouteWithName_ThenReturnsHelloWorldResponse()
     {
-        var response = await GivenTestHost()
+        var host = await GivenTestHost();
+        var response = await host
             .GetClient()
             .GetFromJsonAsync<HealthControllerResponse>($"{ApiRoutes.Health}/carl");
         response.Should().MatchSnapshot();

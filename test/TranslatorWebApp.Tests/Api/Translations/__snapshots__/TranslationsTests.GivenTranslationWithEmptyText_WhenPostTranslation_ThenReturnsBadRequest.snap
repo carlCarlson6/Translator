@@ -1,0 +1,4 @@
+﻿{
+  "ErrorMessage": "text can not be null or empty",
+  "ErrorName": "InvalidTranslationText"
+}

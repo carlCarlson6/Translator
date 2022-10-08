@@ -10,10 +10,12 @@
 
     <ItemGroup>
         <PackageReference Include="FluentAssertions" Version="6.7.0" />
+        <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.9" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
         <PackageReference Include="Rebus.TestHelpers" Version="7.2.0" />
         <PackageReference Include="Snapshooter.Xunit" Version="0.7.1" />
+        <PackageReference Include="Testcontainers" Version="2.1.0" />
         <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,10 +25,6 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Integration" />
     </ItemGroup>
 
     <ItemGroup>
