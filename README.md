@@ -20,7 +20,13 @@ the following configurations are mandatory to be present on your dotnet secret.j
 }
 ```
 
+an azure translator service should be deployed on your azure subscription in order to retrive the TranslatorUrl, TranslatorApiKey and the TranslatorRegion
+
+for the storage account you can use [azurite](https://hub.docker.com/_/microsoft-azure-storage-azurite) to run it locally, or deploy an isntace on your azure subscription
+
 on the docs folder there is a postman collection to test the endpoints
+
+
 
 ## to run the project on docker-compose
 WIP
