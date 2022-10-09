@@ -15,8 +15,7 @@ public class DocumentCreator
         _bus = bus;
         _guidGenerator = guidGenerator;
     }
-
-    // TODO - add logging
+    
     public async Task<TranslationDocument> Execute(string text)
     {
         var (doc, @event) = TranslationDocument.Create(_guidGenerator.New(), text);

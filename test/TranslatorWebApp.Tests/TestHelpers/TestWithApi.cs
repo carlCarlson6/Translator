@@ -1,3 +1,4 @@
+using Azure.CognitiveServices;
 using Azure.CognitiveServices.Language;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;

@@ -1,4 +1,5 @@
-using Azure.CognitiveServices.Language;
+using Azure.CognitiveServices;
+using Azure.CognitiveServices.Language.Models;
 using TranslatorWebApp.Common.Core;
 using TranslatorWebApp.TranslatorWorker.LanguageIdentification.Core;
 
@@ -11,7 +12,7 @@ public class AzureLanguageIdentifier : ILanguageIdentifier
 
     public async Task<ILanguageIdentificationResult> Execute(TranslationText text)
     {
-        var languages = (await _languageApi.DetectLanguage(text.ToString())).ToList();
+        var languages = (await _languageApi.DetectLanguage(new List<DetectLanguageRequest> { new(text.ToString()) })).ToList();
         if (!languages.Any())
             return new LanguageIdentificationKoResult();
 

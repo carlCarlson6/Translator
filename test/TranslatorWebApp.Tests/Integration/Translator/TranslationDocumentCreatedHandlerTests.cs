@@ -1,4 +1,6 @@
+using Azure.CognitiveServices;
 using Azure.CognitiveServices.Language;
+using Azure.CognitiveServices.Language.Models;
 using Contracts.Events;
 using FluentAssertions;
 using NSubstitute;
@@ -9,7 +11,6 @@ using TranslatorWebApp.Common.Core;
 using TranslatorWebApp.Common.Core.Errors;
 using TranslatorWebApp.Common.Infrastructure.AzureStorageTables;
 using TranslatorWebApp.Tests.TestHelpers;
-using TranslatorWebApp.TranslatorWorker;
 using TranslatorWebApp.TranslatorWorker.LanguageIdentification;
 using Xunit;
 
@@ -58,7 +59,7 @@ public class TranslationDocumentCreatedHandlerTests : TestWithAzurite
     [Fact]
     public async Task GivenSpanishText_WhenHandleTranslationDocumentCreated_ThenDocumentTranslatedEventIsSent()
     {
-        _languageApiMock.DetectLanguage(Arg.Any<string>())
+        _languageApiMock.DetectLanguage(Arg.Any<IEnumerable<DetectLanguageRequest>>())
             .Returns(new List<LanguageDetectionResponse> { new("es", 1, true, true) });
         var doc = new TranslationDocument(
             FakeGuidGenerator.New(),
@@ -78,7 +79,7 @@ public class TranslationDocumentCreatedHandlerTests : TestWithAzurite
     [Fact]
     public async Task GivenEnglishText_WhenHandleTranslationDocumentCreated_ThenDocumentLanguageDetectedEventIsSent()
     {
-        _languageApiMock.DetectLanguage(Arg.Any<string>())
+        _languageApiMock.DetectLanguage(Arg.Any<IEnumerable<DetectLanguageRequest>>())
             .Returns(new List<LanguageDetectionResponse>
             {
                 new("en", 0.8, true, true),

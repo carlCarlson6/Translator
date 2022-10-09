@@ -7,8 +7,7 @@ public class AzureStorageTableInitializer : BackgroundService
     private readonly TableClient _tableClient;
 
     public AzureStorageTableInitializer(TableClient tableClient) => _tableClient = tableClient;
-
-    // TODO - add logging
+    
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try

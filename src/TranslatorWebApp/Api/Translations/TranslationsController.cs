@@ -13,7 +13,6 @@ namespace TranslatorWebApp.Api.Translations;
 [Route(ApiRoutes.Translations)]
 public class TranslationsController
 {
-    // TODO - add logging
     private readonly DocumentCreator _documentCreator;
     private readonly ITranslationDocumentsRepository _repository;
 

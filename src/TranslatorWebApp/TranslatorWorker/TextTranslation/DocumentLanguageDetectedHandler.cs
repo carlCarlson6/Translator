@@ -10,7 +10,7 @@ public class DocumentLanguageDetectedHandler : IHandleMessages<DocumentLanguageD
 {
     private readonly ITextTranslator _translator;
     private readonly IBus _bus;
-
+    
     public DocumentLanguageDetectedHandler(ITextTranslator translator, IBus bus) => (_translator, _bus) = (translator, bus);
 
     public async Task Handle(DocumentLanguageDetected message)

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorWebApp", "Transla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslatorWebApp.Tests", "..\test\TranslatorWebApp.Tests\TranslatorWebApp.Tests.csproj", "{3D73C02F-E254-4E77-82CC-76728E503592}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{E7625DAC-5FD4-4D73-B73B-9ECD1D8678F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,5 +40,6 @@ Global
 		{3D73C02F-E254-4E77-82CC-76728E503592}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{3232B41D-2C12-42CA-9CE5-51C685A5425E} = {E7625DAC-5FD4-4D73-B73B-9ECD1D8678F2}
 	EndGlobalSection
 EndGlobal

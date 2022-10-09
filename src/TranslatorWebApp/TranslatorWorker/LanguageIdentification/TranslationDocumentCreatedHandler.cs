@@ -22,8 +22,7 @@ public class TranslationDocumentCreatedHandler : IHandleMessages<TranslationDocu
         _bus = bus;
         _azureLanguageIdentifier = azureLanguageIdentifier;
     }
-
-    // TODO - add logging
+    
     public async Task Handle(TranslationDocumentCreated message)
     {
         await UpdateTranslationDocumentStatus(message.DocumentId);
