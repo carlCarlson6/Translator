@@ -25,7 +25,8 @@ public class AzureStorageTableTranslationDocumentsRepository : ITranslationDocum
 
     public async Task Upsert(TranslationDocument doc)
     {
-        var response = await _tableClient.UpsertEntityAsync(TranslationDocumentTableEntity.From(doc));
+        var tableEntity = TranslationDocumentTableEntity.From(doc);
+        var response = await _tableClient.UpsertEntityAsync(tableEntity, TableUpdateMode.Replace);
         if (response.IsError)
             throw new Exception(response.ReasonPhrase);
     }

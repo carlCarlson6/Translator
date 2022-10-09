@@ -24,7 +24,7 @@ public class AzureLanguageHttpApi : IAzureLanguageApi
         }
     }
 
-    public async Task<TranslationResponse> Translate(TranslationRequest request)
+    public async Task<IEnumerable<TranslationResponse>> Translate(TranslationRequest request)
     {
         try
         {
@@ -32,13 +32,13 @@ public class AzureLanguageHttpApi : IAzureLanguageApi
                 $"/translate?api-version=3.0&from={request.From}&to={request.To}", 
                 request.Body);
             if (!response.IsSuccessStatusCode)
-                return new TranslationResponse(ImmutableList<AzureTranslation>.Empty);
+                return ImmutableList<TranslationResponse>.Empty;
 
-            return await response.Content.ReadAsAsync<TranslationResponse>();
+            return await response.Content.ReadAsAsync<IEnumerable<TranslationResponse>>();
         }
         catch (Exception)
         {
-            return new TranslationResponse(ImmutableList<AzureTranslation>.Empty);
+            return ImmutableList<TranslationResponse>.Empty;
         }
     }
 }

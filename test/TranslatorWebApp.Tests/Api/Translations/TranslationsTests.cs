@@ -21,11 +21,13 @@ public class TranslationsTests : TestWithApi
     public async Task GivenTranslation_WhenPostTranslation_ThenReturnsAccepted()
     {
         var host = await GivenTestHost();
-        var response = await host.GetClient().PostAsJsonAsync(
+        var httpResponse = await host.GetClient().PostAsJsonAsync(
             ApiRoutes.Translations, 
             new PostTranslationRequest("this text should be translated into spanish"));
 
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        httpResponse.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        var response = await httpResponse.Content.ReadAsAsync<PostTranslationResponse>();
+        response.Should().MatchSnapshot();
     }
     
     [Fact]

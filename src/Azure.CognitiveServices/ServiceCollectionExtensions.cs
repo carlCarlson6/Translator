@@ -7,17 +7,22 @@ namespace Azure.CognitiveServices;
 
 public static class ServiceCollectionExtensions
 {
-    // TODO - get configuration
     public static IServiceCollection AddAzureCognitiveServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHttpClient()
+        var config = configuration.GetAzureCognitiveServicesConfig();
+        services
+            .AddHttpClient()
             .AddHttpClient<IAzureLanguageApi, AzureLanguageHttpApi>((_, client) => client
-            .ConfigureAzureTranslator(configuration.GetTranslatorUrl(), "", ""));
-        
+                .ConfigureAzureTranslator(config.TranslatorUrl, config.TranslatorApiKey, config.TranslatorRegion));
         return services;
     }
-    
-    private static string GetTranslatorUrl(this IConfiguration configuration) => configuration["AzureCognitiveServices:TranslatorUrl"];
+
+    private static AzureCognitiveServicesConfig GetAzureCognitiveServicesConfig(this IConfiguration configuration)
+    {
+        var azureConfig = new AzureCognitiveServicesConfig();
+        configuration.GetRequiredSection(nameof(AzureCognitiveServicesConfig)).Bind(azureConfig);
+        return azureConfig;
+    }
 }
 
 public static class HttpClientExtensions

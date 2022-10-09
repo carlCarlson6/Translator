@@ -25,10 +25,13 @@ public class DocumentLanguageDetectedHandlerTests : TestWithAzurite
     public async Task WhenHandleDocumentLanguageDetected_AndTranslationIsOk_ThenDocumentTranslatedEventIsSent()
     {
         _languageApiMock.Translate(Arg.Any<TranslationRequest>())
-            .Returns(new TranslationResponse(new List<AzureTranslation>
+            .Returns(new List<TranslationResponse>
             {
-                new("esta es la traduccion del text", "es")
-            }));
+                new(new List<AzureTranslation>
+                {
+                    new("esta es la traduccion del text", "es")
+                })
+            });
 
         await GivenEventHandler().Handle(_event);
         
@@ -42,7 +45,7 @@ public class DocumentLanguageDetectedHandlerTests : TestWithAzurite
     public async Task WhenHandleDocumentLanguageDetected_AndTranslationIsKo_ThenErrorTranslatingDocumentIsThrown()
     {
         _languageApiMock.Translate(Arg.Any<TranslationRequest>())
-            .Returns(new TranslationResponse(ImmutableList<AzureTranslation>.Empty));
+            .Returns(ImmutableList<TranslationResponse>.Empty);
         
         var act = () => GivenEventHandler().Handle(_event);
         await act.Should().ThrowAsync<ErrorTranslatingDocument>();

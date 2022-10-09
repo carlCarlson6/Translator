@@ -29,8 +29,10 @@ public class Startup
         
         if (!_environment.RunningTests())
             services
-                .AddRebusServices(_configuration.GetQueueSettings(), CloudStorageAccount.DevelopmentStorageAccount) // TODO - get configuration
-                .AddAzureStorageTableClient("", "") // TODO - get configuration
+                .AddRebusServices(_configuration.GetQueueSettings(), _configuration.GetStorageAccount())
+                .AddAzureStorageTableClient(
+                    AzureStorageTablesConfig.TranslationDocumentsTable, 
+                    _configuration.GetCloudStorageConnectionString())
                 .AddAzureCognitiveServices(_configuration); 
     }
 

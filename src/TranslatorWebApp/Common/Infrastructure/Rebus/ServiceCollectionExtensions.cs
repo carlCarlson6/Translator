@@ -1,7 +1,9 @@
+using Contracts.Events;
 using Microsoft.Azure.Storage;
 using Newtonsoft.Json;
 using Rebus.Config;
 using Rebus.Retry.Simple;
+using Rebus.Routing.TypeBased;
 using Rebus.Serialization.Json;
 
 namespace TranslatorWebApp.Common.Infrastructure.Rebus;
@@ -12,8 +14,20 @@ public static class ServiceCollectionExtensions
         .AutoRegisterHandlersFromAssemblyOf<Program>()
         .AddRebus((configurer, _) => configurer
             .ConfigureRebus()
-            .Transport(t => 
-                t.UseAzureStorageQueues(cloudStorageAccount, queueSettings.TranslatorWebAppQueue)));
+            .Transport(t =>
+                t.UseAzureStorageQueues(
+                    cloudStorageAccount, 
+                    queueSettings.TranslatorWebAppQueue, 
+                    new AzureStorageQueuesTransportOptions
+                    {
+                        AutomaticallyCreateQueues = true
+                    }))
+            .Routing(standardConfigurer =>
+                standardConfigurer.TypeBased()
+                    .Map<DocumentLanguageDetected>(queueSettings.TranslatorWebAppQueue)
+                    .Map<DocumentTranslated>(queueSettings.TranslatorWebAppQueue)
+                    .Map<LanguageCouldNotBeDetected>(queueSettings.TranslatorWebAppQueue)
+                    .Map<TranslationDocumentCreated>(queueSettings.TranslatorWebAppQueue)));
     
     public static RebusQueueSettings GetQueueSettings(this IConfiguration configuration)
     {

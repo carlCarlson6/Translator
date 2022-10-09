@@ -17,11 +17,11 @@ public class AzureTextTranslator : ITextTranslator
             "es", 
             new List<TranslationRequestBodyText> { new(text.ToString()) });
 
-        var response = await _api.Translate(request);
-        if (!response.Translations.Any())
+        var response = (await _api.Translate(request)).ToList();
+        if (!response.Any())
             return new TextTranslationKoResult();
 
-        var translatedText = response.Translations.FirstOrDefault()?.Text;
+        var translatedText = response.FirstOrDefault()?.Translations.FirstOrDefault()?.Text;
         if (string.IsNullOrWhiteSpace(translatedText)) 
             return new TextTranslationKoResult();
 

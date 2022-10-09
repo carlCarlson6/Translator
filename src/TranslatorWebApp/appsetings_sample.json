@@ -1,3 +1,13 @@
 {
-  
+  "StorageAccountConfiguration": {
+    "ConnectionString": "<STORAGE_ACCOUNT_CONNECTION_STRING>"
+  },
+  "AzureCognitiveServicesConfig": {
+    "TranslatorUrl": "<URL>",
+    "TranslatorApiKey": "<API_KEY>",
+    "TranslatorRegion": "<REGION>"
+  },
+  "RebusQueueSettings": {
+    "TranslatorWebAppQueue": "translator-web-app-queue"
+  }
 }

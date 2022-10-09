@@ -22,12 +22,12 @@ public class TestWithAzurite : IAsyncLifetime
     }
     
     protected TableClient GivenTableClient() => new TableServiceClient(_container.ConnectionString)
-        .GetTableClient(new AzureStorageTablesConfig().TranslationDocumentsTable);
+        .GetTableClient(AzureStorageTablesConfig.TranslationDocumentsTable);
     
     protected async Task<TableClient> InitTableClientAsync()
     {
         var tableClient = new TableServiceClient(_container.ConnectionString)
-            .GetTableClient(new AzureStorageTablesConfig().TranslationDocumentsTable);
+            .GetTableClient(AzureStorageTablesConfig.TranslationDocumentsTable);
         await tableClient.CreateIfNotExistsAsync();
         return tableClient;
     }

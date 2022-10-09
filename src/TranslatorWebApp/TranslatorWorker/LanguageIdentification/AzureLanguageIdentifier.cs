@@ -20,7 +20,9 @@ public class AzureLanguageIdentifier : ILanguageIdentifier
             .Where(l => l.IsTranslationSupported).MaxBy(l => l.Score);
         if (languageCandidate is null)
             return new LanguageIdentificationKoResult();
-
+        if (languageCandidate.Score < 0.5)
+            return new LanguageIdentificationKoResult();
+        
         return new LanguageIdentificationOkResult(languageCandidate.Language);
     }
 }
