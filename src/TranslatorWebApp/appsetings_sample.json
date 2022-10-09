@@ -8,6 +8,6 @@
     "TranslatorRegion": "<REGION>"
   },
   "RebusQueueSettings": {
-    "TranslatorWebAppQueue": "translator-web-app-queue"
+    "TranslatorWebAppQueue": "<QUEUE_NAME>"
   }
 }

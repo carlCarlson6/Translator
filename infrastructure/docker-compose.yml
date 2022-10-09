@@ -1,0 +1,37 @@
+version: '3.4'
+services:
+  translator.webapp:
+    image: ${DOCCKER_REGISTRY-}translatorwebapp
+    build:
+      context: ../
+      dockerfile: ./src/TranslatorWebApp/Dockerfile
+    container_name: translator.webapp
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - RebusQueueSettings:TranslatorWebAppQueue=translator-web-app-queue
+      - StorageAccountConfiguration:ConnectionString=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1;
+    restart: always
+    depends_on:
+      - storage.account
+    ports:
+      - "7280:80"
+    networks:
+      - n-be
+  storage.account:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: storage.account
+    hostname: azurite
+    restart: always
+    command: "azurite --blobHost 0.0.0.0 --blobPort 10000 --queueHost 0.0.0.0 --queuePort 10001 --tableHost 0.0.0.0 --tablePort 10002"
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    volumes:
+      - ./azurite:/workspace
+    networks:
+      - n-be
+
+networks:
+  n-be:
+    name: network-backend

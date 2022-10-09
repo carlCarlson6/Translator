@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "87245008-24bc-4666-844c-f7d195c99099",
+		"name": "translator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15210882"
+	},
+	"item": [
+		{
+			"name": "health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7280/api/health",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7280",
+					"path": [
+						"api",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "send translation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"αυτό είναι ένα κείμενο στα ελληνικά\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7280/api/translations",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7280",
+					"path": [
+						"api",
+						"translations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get translation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7280/api/translations/:translationId",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7280",
+					"path": [
+						"api",
+						"translations",
+						":translationId"
+					],
+					"variable": [
+						{
+							"key": "translationId",
+							"value": "fa079570-d6b1-4b22-8df9-eb37d3e5d7ee"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health with text",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7280/api/health/:text",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7280",
+					"path": [
+						"api",
+						"health",
+						":text"
+					],
+					"variable": [
+						{
+							"key": "text",
+							"value": "carl"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
