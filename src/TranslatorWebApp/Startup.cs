@@ -2,6 +2,7 @@ using Azure.CognitiveServices;
 using Microsoft.Azure.Storage;
 using TranslatorWebApp.Api.Infrastructure;
 using TranslatorWebApp.Common.Core;
+using TranslatorWebApp.Common.Infrastructure;
 using TranslatorWebApp.Common.Infrastructure.AzureStorageTables;
 using TranslatorWebApp.Common.Infrastructure.Rebus;
 using TranslatorWebApp.TranslatorWorker.Infrastructure;
@@ -19,8 +20,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services
-            .AddSingleton<IGuidGenerator, CsharpGuidGenerator>()
-            .AddSingleton<ITranslationDocumentsRepository, AzureStorageTableTranslationDocumentsRepository>()
+            .AddCoreServices()
             .AddApiTranslationServices()
             .AddTranslatorWorkerServices()
             .AddSwaggerGen()
@@ -29,13 +29,9 @@ public class Startup
         
         if (!_environment.RunningTests())
             services
-                .AddRebusServices(
-                    _configuration.GetQueueSettings(),
-                    CloudStorageAccount.DevelopmentStorageAccount) // TODO - get configuration
-                .AddAzureStorageTableClient(
-                    "",
-                    "") // TODO - get configuration
-                .AddAzureCognitiveServices(); 
+                .AddRebusServices(_configuration.GetQueueSettings(), CloudStorageAccount.DevelopmentStorageAccount) // TODO - get configuration
+                .AddAzureStorageTableClient("", "") // TODO - get configuration
+                .AddAzureCognitiveServices(_configuration); 
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
