@@ -1,4 +1,4 @@
-using TranslatorWebApp.Shared;
+using TranslatorWebApp.Common.Core;
 
 namespace TranslatorWebApp.Tests.TestHelpers;
 

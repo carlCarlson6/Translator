@@ -1,0 +1,9 @@
+﻿{
+  "PartitionKey": "Translation",
+  "RowKey": "a4395f86-cab1-406f-acd1-274c27894b93",
+  "Status": "Completed",
+  "OriginalText": "this text should be translated into spanish",
+  "TranslatedText": "this text should be translated into spanish",
+  "Timestamp": "2022-10-08T23:55:28.942+00:00",
+  "ETag": {}
+}

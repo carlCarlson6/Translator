@@ -4,11 +4,12 @@ using Contracts.Events;
 using FluentAssertions;
 using Rebus.TestHelpers.Events;
 using Snapshooter.Xunit;
-using TranslatorWebApp.Api.Common;
 using TranslatorWebApp.Api.Infrastructure;
 using TranslatorWebApp.Api.Translations;
-using TranslatorWebApp.Api.Translations.Core;
-using TranslatorWebApp.Api.Translations.Infrastructure;
+using TranslatorWebApp.Api.Translations.Messages;
+using TranslatorWebApp.Common.Core;
+using TranslatorWebApp.Common.Core.Errors;
+using TranslatorWebApp.Common.Infrastructure.AzureStorageTables;
 using TranslatorWebApp.Tests.TestHelpers;
 using Xunit;
 

@@ -1,8 +1,8 @@
 using Azure.Data.Tables;
 using DotNet.Testcontainers.Builders;
 using Rebus.TestHelpers;
-using TranslatorWebApp.Shared;
-using TranslatorWebApp.Shared.Infrastructure.AzureStorageTables;
+using TranslatorWebApp.Common.Core;
+using TranslatorWebApp.Common.Infrastructure.AzureStorageTables;
 using TranslatorWebApp.Tests.TestHelpers.Azurite;
 using Xunit;
 

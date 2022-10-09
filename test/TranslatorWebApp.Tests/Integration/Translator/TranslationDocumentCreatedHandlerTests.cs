@@ -1,19 +1,24 @@
+using Azure.CognitiveServices.Language;
 using Contracts.Events;
 using FluentAssertions;
+using NSubstitute;
 using Rebus.Handlers;
 using Rebus.TestHelpers.Events;
 using Snapshooter.Xunit;
-using TranslatorWebApp.Api.Translations.Core;
-using TranslatorWebApp.Api.Translations.Infrastructure;
+using TranslatorWebApp.Common.Core;
+using TranslatorWebApp.Common.Core.Errors;
+using TranslatorWebApp.Common.Infrastructure.AzureStorageTables;
 using TranslatorWebApp.Tests.TestHelpers;
+using TranslatorWebApp.TranslatorWorker;
+using TranslatorWebApp.TranslatorWorker.LanguageIdentification;
 using Xunit;
 
 namespace TranslatorWebApp.Tests.Integration.Translator;
 
 public class TranslationDocumentCreatedHandlerTests : TestWithAzurite
 {
-    private readonly IHandleMessages<TranslationDocumentCreated> _sut = null!;
-
+    private readonly IAzureLanguageApi _languageApiMock = Substitute.For<IAzureLanguageApi>();
+    
     [Fact]
     public async Task WhenHandleTranslationDocumentCreated_ThenDocStatusIsUpdatedToInProcess()
     {
@@ -25,7 +30,7 @@ public class TranslationDocumentCreatedHandlerTests : TestWithAzurite
             Status.Pending);
         await tableClient.AddEntityAsync(TranslationDocumentTableEntity.From(doc));
 
-        await _sut.Handle(new TranslationDocumentCreated(doc.Id, doc.OriginalText.ToString()));
+        await BuildHandler().Handle(new TranslationDocumentCreated(doc.Id, doc.OriginalText.ToString()));
 
         var response = await tableClient.GetEntityAsync<TranslationDocumentTableEntity>("Translation", doc.Id.ToString());
         response.Value.Status.Should().Be(Status.InProcess);
@@ -41,7 +46,7 @@ public class TranslationDocumentCreatedHandlerTests : TestWithAzurite
             Status.Pending);
         await (await InitTableClientAsync()).AddEntityAsync(TranslationDocumentTableEntity.From(doc));
         
-        await _sut.Handle(new TranslationDocumentCreated(doc.Id, doc.OriginalText.ToString()));
+        await BuildHandler().Handle(new TranslationDocumentCreated(doc.Id, doc.OriginalText.ToString()));
         
         FakeBus.Events
             .OfType<MessageSent<LanguageCouldNotBeDetected>>().First()
@@ -53,6 +58,8 @@ public class TranslationDocumentCreatedHandlerTests : TestWithAzurite
     [Fact]
     public async Task GivenSpanishText_WhenHandleTranslationDocumentCreated_ThenDocumentTranslatedEventIsSent()
     {
+        _languageApiMock.DetectLanguage(Arg.Any<string>())
+            .Returns(new List<LanguageDetectionResponse> { new("es", 1, true, true) });
         var doc = new TranslationDocument(
             FakeGuidGenerator.New(),
             new TranslationText("esto es un texto en español"),
@@ -60,7 +67,7 @@ public class TranslationDocumentCreatedHandlerTests : TestWithAzurite
             Status.Pending);
         await (await InitTableClientAsync()).AddEntityAsync(TranslationDocumentTableEntity.From(doc));
         
-        await _sut.Handle(new TranslationDocumentCreated(doc.Id, doc.OriginalText.ToString()));
+        await BuildHandler().Handle(new TranslationDocumentCreated(doc.Id, doc.OriginalText.ToString()));
         
         FakeBus.Events
             .OfType<MessageSent<DocumentTranslated>>().First()
@@ -71,18 +78,37 @@ public class TranslationDocumentCreatedHandlerTests : TestWithAzurite
     [Fact]
     public async Task GivenEnglishText_WhenHandleTranslationDocumentCreated_ThenDocumentLanguageDetectedEventIsSent()
     {
+        _languageApiMock.DetectLanguage(Arg.Any<string>())
+            .Returns(new List<LanguageDetectionResponse>
+            {
+                new("en", 0.8, true, true),
+                new("de", 0.2, true, true)
+            });
         var doc = new TranslationDocument(
             FakeGuidGenerator.New(),
-            new TranslationText("esto es un texto en español"),
+            new TranslationText("this text should be translated into spanish"),
             null,
             Status.Pending);
         await (await InitTableClientAsync()).AddEntityAsync(TranslationDocumentTableEntity.From(doc));
         
-        await _sut.Handle(new TranslationDocumentCreated(doc.Id, doc.OriginalText.ToString()));
+        await BuildHandler().Handle(new TranslationDocumentCreated(doc.Id, doc.OriginalText.ToString()));
         
         FakeBus.Events
             .OfType<MessageSent<DocumentLanguageDetected>>().First()
             .CommandMessage
             .Should().MatchSnapshot();
     }
+    
+    [Fact]
+    public async Task GivenNoTranslationDocument_WhenHandleTranslationDocumentCreated_ThenTranslationDocumentNotFoundIsThrown()
+    {
+        await InitTableClientAsync();
+        var act = () => BuildHandler().Handle(new TranslationDocumentCreated(FakeGuidGenerator.New(), "some-text"));
+        await act.Should().ThrowAsync<TranslationDocumentNotFound>();
+    }
+
+    private IHandleMessages<TranslationDocumentCreated> BuildHandler() => new TranslationDocumentCreatedHandler(
+        new AzureStorageTableTranslationDocumentsRepository(GivenTableClient()), 
+        FakeBus,
+        new AzureLanguageIdentifier(_languageApiMock));
 }
