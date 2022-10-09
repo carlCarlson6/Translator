@@ -20,4 +20,8 @@
       <ProjectReference Include="..\Contracts\Contracts.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Common" />
+    </ItemGroup>
+
 </Project>

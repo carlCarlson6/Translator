@@ -1,0 +1,3 @@
+namespace TranslatorWebApp.TranslatorWorker.LanguageIdentification.Core;
+
+public record LanguageIdentificationOkResult(string LanguageCode) : ILanguageIdentificationResult;

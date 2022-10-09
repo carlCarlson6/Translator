@@ -1,9 +1,9 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Extensions;
-using TranslatorWebApp.Api.Common;
 using TranslatorWebApp.Api.Infrastructure;
-using TranslatorWebApp.Api.Translations.Core;
+using TranslatorWebApp.Api.Translations.Messages;
+using TranslatorWebApp.Common.Core;
+using TranslatorWebApp.Common.Core.Errors;
 
 namespace TranslatorWebApp.Api.Translations;
 
@@ -42,20 +42,4 @@ public class TranslationsController
             return new ObjectResult(ApiErrorResponse.FromApiError(error)) { StatusCode = (int)error.Code };
         }
     }
-}
-
-public record PostTranslationRequest(string Text);
-public record PostTranslationResponse(Guid TranslationId);
-
-public record GetTranslationResponse(TranslationDocumentDto TranslationDocument)
-{
-    public static GetTranslationResponse From(TranslationDocument doc) => new(TranslationDocumentDto.From(doc));
-}
-public record TranslationDocumentDto(Guid Id, string OriginalText, string TranslationStatus, string? TranslatedText)
-{
-    public static TranslationDocumentDto From(TranslationDocument doc) => new TranslationDocumentDto(
-        doc.Id,
-        doc.OriginalText.ToString(),
-        doc.Status.GetDisplayName(),
-        doc.Translation is null ? null : doc.Translation.ToString());
 }

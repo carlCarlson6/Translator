@@ -1,3 +1,4 @@
+using TranslatorWebApp;
 using TranslatorWebApp.Api;
 
 Host.CreateDefaultBuilder(args)

@@ -1,6 +1,5 @@
 using Rebus.Bus;
-using TranslatorWebApp.Api.Translations.Core;
-using TranslatorWebApp.Shared;
+using TranslatorWebApp.Common.Core;
 
 namespace TranslatorWebApp.Api.Translations;
 

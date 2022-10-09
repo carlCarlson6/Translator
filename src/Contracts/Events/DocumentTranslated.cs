@@ -1,3 +1,3 @@
 namespace Contracts.Events;
 
-public record DocumentTranslated;
+public record DocumentTranslated(Guid DocumentId, string Translation);

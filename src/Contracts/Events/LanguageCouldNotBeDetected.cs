@@ -1,3 +1,3 @@
 namespace Contracts.Events;
 
-public record LanguageCouldNotBeDetected;
+public record LanguageCouldNotBeDetected(Guid DocumentId);
