@@ -27,13 +27,7 @@ public class TranslationDocumentCreatedHandler : IHandleMessages<TranslationDocu
     public async Task Handle(TranslationDocumentCreated message)
     {
         await UpdateTranslationDocumentStatus(message.DocumentId);
-        var languageIdentificationResult = await _azureLanguageIdentifier.Execute(new TranslationText(message.Text));
-        await (languageIdentificationResult switch
-        {
-            LanguageIdentificationOkResult ok => HandleLanguageIdentificationOkResult(message.DocumentId, message.Text, ok.LanguageCode),
-            LanguageIdentificationKoResult    => HandleLanguageIdentificationKoResult(message.DocumentId),
-            _                                 => throw new ArgumentOutOfRangeException(nameof(languageIdentificationResult))
-        });
+        await IdentifyLanguage(message.DocumentId, new TranslationText(message.Text));
     }
     
     private async Task UpdateTranslationDocumentStatus(Guid translationId)
@@ -44,13 +38,21 @@ public class TranslationDocumentCreatedHandler : IHandleMessages<TranslationDocu
         await _repository.Upsert(doc with { Status = Status.InProcess });
     }
 
+    private async Task IdentifyLanguage(Guid docId, TranslationText text)
+    {
+        var languageIdentificationResult = await _azureLanguageIdentifier.Execute(text);
+        await (languageIdentificationResult switch
+        {
+            LanguageIdentificationOkResult ok => HandleLanguageIdentificationOkResult(docId, text.ToString(), ok.LanguageCode),
+            LanguageIdentificationKoResult    => _bus.Send(new LanguageCouldNotBeDetected(docId)),
+            _                                 => throw new ArgumentOutOfRangeException(nameof(languageIdentificationResult))
+        });
+    }
+
     private Task HandleLanguageIdentificationOkResult(Guid documentId, string text, string languageCode) =>
         languageCode.Equals("es", StringComparison.InvariantCultureIgnoreCase) switch
         {
             true  => _bus.Send(new DocumentTranslated(documentId, text)),
             false => _bus.Send(new DocumentLanguageDetected(documentId, text, languageCode))
         };
-    
-    private async Task HandleLanguageIdentificationKoResult(Guid documentId) => 
-        await _bus.Send(new LanguageCouldNotBeDetected(documentId));
 }

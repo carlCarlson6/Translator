@@ -8,7 +8,6 @@ namespace TranslatorWebApp.TranslatorWorker.LanguageIdentification;
 public class LanguageCouldNotBeDetectedHandler : IHandleMessages<LanguageCouldNotBeDetected>
 {
     private readonly ITranslationDocumentsRepository _repository;
-    
     public LanguageCouldNotBeDetectedHandler(ITranslationDocumentsRepository repository) => _repository = repository;
 
     public async Task Handle(LanguageCouldNotBeDetected message)

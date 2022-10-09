@@ -10,7 +10,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddRebusServices(this IServiceCollection services, RebusQueueSettings queueSettings, CloudStorageAccount cloudStorageAccount) => services
         .AutoRegisterHandlersFromAssemblyOf<Program>()
-        .AddRebus((configurer, provider) => configurer
+        .AddRebus((configurer, _) => configurer
             .ConfigureRebus()
             .Transport(t => 
                 t.UseAzureStorageQueues(cloudStorageAccount, queueSettings.TranslatorWebAppQueue)));
