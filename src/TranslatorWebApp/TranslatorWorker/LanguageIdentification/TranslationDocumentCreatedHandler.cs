@@ -11,12 +11,12 @@ public class TranslationDocumentCreatedHandler : IHandleMessages<TranslationDocu
 {
     private readonly ITranslationDocumentsRepository _repository;
     private readonly IBus _bus;
-    private readonly AzureLanguageIdentifier _azureLanguageIdentifier;
+    private readonly ILanguageIdentifier _azureLanguageIdentifier;
     
     public TranslationDocumentCreatedHandler(
         ITranslationDocumentsRepository repository, 
         IBus bus, 
-        AzureLanguageIdentifier azureLanguageIdentifier)
+        ILanguageIdentifier azureLanguageIdentifier)
     {
         _repository = repository;
         _bus = bus;
